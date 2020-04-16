@@ -56,7 +56,10 @@ func (controller *UserController) Create(c Context) (err error) {
 }
 
 func (controller *UserController) Save(c Context) (err error) {
-	u := domain.User{}
+	id, _ := strconv.Atoi(c.Param("id"))
+	u := domain.User{
+		ID: id,
+	}
 	c.Bind(&u)
 	user, err := controller.Interactor.Update(u)
 	if err != nil {
