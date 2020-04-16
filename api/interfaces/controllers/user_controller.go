@@ -3,7 +3,6 @@ package controllers
 import (
 	"strconv"
 
-	"github.com/labstack/echo"
 	"github.com/watarun54/go-echo-gorm-clean-api/api/domain"
 	"github.com/watarun54/go-echo-gorm-clean-api/api/interfaces/database"
 	"github.com/watarun54/go-echo-gorm-clean-api/api/usecase"
@@ -23,7 +22,7 @@ func NewUserController(sqlHandler database.SqlHandler) *UserController {
 	}
 }
 
-func (controller *UserController) Show(c echo.Context) (err error) {
+func (controller *UserController) Show(c Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	user, err := controller.Interactor.UserById(id)
 	if err != nil {
@@ -34,7 +33,7 @@ func (controller *UserController) Show(c echo.Context) (err error) {
 	return
 }
 
-func (controller *UserController) Index(c echo.Context) (err error) {
+func (controller *UserController) Index(c Context) (err error) {
 	users, err := controller.Interactor.Users()
 	if err != nil {
 		c.JSON(500, NewError(err))
@@ -44,7 +43,7 @@ func (controller *UserController) Index(c echo.Context) (err error) {
 	return
 }
 
-func (controller *UserController) Create(c echo.Context) (err error) {
+func (controller *UserController) Create(c Context) (err error) {
 	u := domain.User{}
 	c.Bind(&u)
 	user, err := controller.Interactor.Add(u)
@@ -56,7 +55,7 @@ func (controller *UserController) Create(c echo.Context) (err error) {
 	return
 }
 
-func (controller *UserController) Save(c echo.Context) (err error) {
+func (controller *UserController) Save(c Context) (err error) {
 	u := domain.User{}
 	c.Bind(&u)
 	user, err := controller.Interactor.Update(u)
@@ -68,7 +67,7 @@ func (controller *UserController) Save(c echo.Context) (err error) {
 	return
 }
 
-func (controller *UserController) Delete(c echo.Context) (err error) {
+func (controller *UserController) Delete(c Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	user := domain.User{
 		ID: id,
